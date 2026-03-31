@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %p %m %ex%n" />
+        </Console>
+
+        <File name="log-file" fileName="log/ecmx-doxis-groovy-agent-management-test.log">
+            <PatternLayout pattern="%d %p %m %ex%n" />
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="eu.ecmx.doxis" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="log-file" />
+        </Logger>
+
+        <Root level="WARN">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="log-file" />
+        </Root>
+    </Loggers>
+</Configuration>

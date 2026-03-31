@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="https://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.13</version>
+        <relativePath />
+    </parent>
+
+    <groupId>eu.ecmx.doxis</groupId>
+    <artifactId>ecmx-doxis-groovy-agent-management</artifactId>
+    <version>2.0.0</version>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <archetypeArtifactId>ecmx-maven-archetype-general-spring-app</archetypeArtifactId>
+        <archetypeVersion>1.0.0</archetypeVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <log4j2.version>2.17.1</log4j2.version>
+        <csbVersion>14.2.0</csbVersion>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.doxis</groupId>
+            <artifactId>ecmx-doxis-csb-interfaces</artifactId>
+            <version>${csbVersion}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.doxis</groupId>
+            <artifactId>ecmx-doxis-csb-libs</artifactId>
+            <version>${csbVersion}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.doxis</groupId>
+            <artifactId>ecmx-doxis-agent-server-scriptengines</artifactId>
+            <version>${csbVersion}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.doxis</groupId>
+            <artifactId>ecmx-doxis-agent-server-interfaces</artifactId>
+            <version>${csbVersion}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.dev</groupId>
+            <artifactId>ecmx-nexus-updater</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.ecmx.dev</groupId>
+            <artifactId>ecmx-command-line-help-and-parser</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingExcludes>
+                        WEB-INF/classes/log4j2.xml
+                    </packagingExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>ecmx-project.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>ecmx-project.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>releases</name>
+            <url>https://nexus.ecmx.eu/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>snapshots</name>
+            <url>https://nexus.ecmx.eu/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
